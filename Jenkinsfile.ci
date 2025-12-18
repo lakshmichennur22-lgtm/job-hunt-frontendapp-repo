@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    npm install
+                '''
+            }
+        }
+
+        stage('Build Vite App') {
+            steps {
+                sh '''
+                    npm run build
+                '''
+            }
+        }
+
+        stage('Archive Build Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'build/**', fingerprint: true
+        }
+    }
+
+    post {
+        success {
+            echo '✅ CI Build successful'
+        }
+        failure {
+            echo '❌ CI Build failed'
+        }
+    }
+}
