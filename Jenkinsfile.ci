@@ -28,6 +28,7 @@ pipeline {
         stage('Archive Build Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'build/**', fingerprint: true
+            }
         }
     }
 
@@ -38,6 +39,5 @@ pipeline {
         failure {
             echo '❌ CI Build failed'
         }
-    }
     }
 }
