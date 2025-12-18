@@ -34,10 +34,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ CI Build successful'
-        }
-        failure {
-            echo '❌ CI Build failed'
+            build job: 'frontend_CD'
         }
     }
 }
