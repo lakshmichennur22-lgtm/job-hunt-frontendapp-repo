@@ -1,10 +1,3 @@
-#####################
-# OUTPUTS
-#####################
-output "public_ip" {
-  value = aws_instance.ec2.public_ip
-}
-
-output "public_dns" {
-  value = aws_instance.ec2.public_dns
+output "frontend_url" {
+  value = aws_lb.frontend_alb.dns_name
 }
