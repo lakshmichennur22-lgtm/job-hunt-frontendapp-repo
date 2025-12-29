@@ -104,7 +104,7 @@ resource "aws_security_group" "ecs_sg" {
 #####################################
 locals {
   # Original prefix
-  name_prefix = "${var.project}-${var.application}-${var.environment}-${var.location_short}"
+  name = "${var.project}-${var.application}-${var.environment}-${var.location_short}"
 
   # Remove trailing hyphen if any
   clean_name_prefix = replace(local.name_prefix, "-$", "")
