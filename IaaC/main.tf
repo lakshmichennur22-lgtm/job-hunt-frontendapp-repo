@@ -102,16 +102,30 @@ resource "aws_security_group" "ecs_sg" {
 #####################################
 # ALB
 #####################################
+locals {
+  # Original prefix
+  name_prefix = "${var.project}-${var.application}-${var.environment}-${var.location_short}"
+
+  # Remove trailing hyphen if any
+  clean_name_prefix = replace(local.name_prefix, "-$", "")
+
+  # ALB and TG names must be <=32 characters
+  alb_name = substr(local.clean_name_prefix, 0, 32)
+  tg_name  = substr(local.clean_name_prefix, 0, 32)
+}
+
+
+
+
 resource "aws_lb" "frontend_alb" {
-  name        = substr(local.name_prefix, 0, 20)
+  name               = local.alb_name
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [aws_subnet.public1.id, aws_subnet.public2.id]
 }
 
-
 resource "aws_lb_target_group" "frontend_tg" {
-  name = substr(local.name_prefix, 0, 20)
+  name        = local.tg_name
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.frontend_vpc.id
@@ -122,6 +136,7 @@ resource "aws_lb_target_group" "frontend_tg" {
     port = "80"
   }
 }
+
 
 
 resource "aws_lb_listener" "http_listener" {
