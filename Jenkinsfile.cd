@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'us-east-1'
-        S3_BUCKET = 'job-hunt-frontend-s3'
+        S3_BUCKET = 'bank-portal-frontend-s3'
     }
 
     stages {
@@ -11,7 +11,7 @@ pipeline {
         stage('Download Build Artifacts') {
             steps {
                 copyArtifacts(
-                    projectName: 'frontend_CI',
+                    projectName: 'bank-portal-frontend-ci',
                     selector: lastSuccessful()
                 )
             }
@@ -24,7 +24,7 @@ pipeline {
                      credentialsId: 'Adithya']
                 ]) {
                     sh '''
-                        aws s3 sync build/ s3://$S3_BUCKET --delete
+                        aws s3 sync  build/ s3://$S3_BUCKET --delete
                     '''
                 }
             }
