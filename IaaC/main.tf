@@ -103,14 +103,14 @@ resource "aws_security_group" "ecs_sg" {
 # ALB
 #####################################
 resource "aws_lb" "frontend_alb" {
-  name      = substr("${local.name_prefix}-alb-", 0, 20)
+  name      = substr("${local.name}-alb-", 0, 20)
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [aws_subnet.public1.id, aws_subnet.public2.id]
 }
 
 resource "aws_lb_target_group" "frontend_tg" {
-  name = substr("${local.name_prefix}-tg-", 0, 20)
+  name = substr("${local.name}-tg-", 0, 20)
   port        = 3000
   protocol    = "HTTP"
   vpc_id      = aws_vpc.frontend_vpc.id
